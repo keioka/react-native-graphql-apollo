@@ -1,7 +1,6 @@
-import React from 'react';
-import { AsyncStorage } from 'react-native';
-import { ApolloProvider } from 'react-apollo';
-import Routes from './routes';
+import React from "react";
+import { AsyncStorage } from "react-native";
+import { ApolloProvider } from "react-apollo";
 
 /**
  * ApolloLink:
@@ -16,24 +15,29 @@ import Routes from './routes';
  *   - apollo-link-context
  *   - apollo-link-ws
  */
-import { ApolloClient, InMemoryCache, ApolloLink } from 'apollo-client-preset';
+import { ApolloClient, InMemoryCache, ApolloLink } from "apollo-client-preset";
 
-import { HttpLink } from 'apollo-link-http';
-// Enhances Apollo for intuitive file uploads via GraphQL queries or mutations.
-import { createUploadLink } from 'apollo-upload-client';
+import { HttpLink } from "apollo-link-http";
+
+/**
+ *  Enhances Apollo for intuitive file uploads via GraphQL queries or mutations.
+ *  https://github.com/jaydenseric/apollo-upload-client/blob/master/src/index.mjs#39
+ */
+import { createUploadLink } from "apollo-upload-client";
 
 /**
  * https://github.com/apollographql/apollo-link/tree/master/packages/apollo-link-context
  * The setContext function takes a function that returns either an object or a promise that returns an object to set the new context of a request.
  * It receives two arguments: the GraphQL request being executed, and the previous context. This link makes it easy to perform async look up of things like authentication tokens and more!
  */
-import { setContext } from 'apollo-link-context';
+import { setContext } from "apollo-link-context";
 
 /**
  * Use the Apollo Client cache as your single source of truth that holds all of your local data alongside your remote data.
  * To access or update your local state, you use GraphQL queries and mutations just like you would for data from a server.
  */
-import { withClientState } from 'apollo-link-state';
+import { withClientState } from "apollo-link-state";
+import Routes from "./routes";
 
 const cache = new InMemoryCache();
 
@@ -41,10 +45,20 @@ const defaults = {
   isLogined: false
 };
 
+const authLink = setContext(async (_, { headers }) => {
+  const token = await AsyncStorage.getItem();
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : ""
+    }
+  };
+});
+
 const stateLink = withClientState({
   cache,
   resolvers: {
-    Mutation: {},
+    Mutation: {}
   },
   defaults
 });
@@ -53,9 +67,11 @@ const stateLink = withClientState({
 const client = new ApolloClient({
   cache,
   link: ApolloLink.from([
+    authLink,
     stateLink,
-    new HttpLink()
-  ]),
+    createUploadLink({ uri: "http://192.168.0.12:4000/graphql" })
+    // We don't need HttpLink here.
+  ])
 });
 
 export default () => (

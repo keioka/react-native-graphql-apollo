@@ -5,7 +5,7 @@ export default StyleSheet.create({
     backgroundColor: '#078BFB',
     width: 100,
     height: 100,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   input: {
     height: 50,
@@ -14,6 +14,6 @@ export default StyleSheet.create({
     padding: 4,
     fontSize: 18,
     borderWidth: 1,
-    borderColor: 'green'
-  }
+    borderColor: 'green',
+  },
 });

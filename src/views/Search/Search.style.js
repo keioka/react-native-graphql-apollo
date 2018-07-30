@@ -2,8 +2,8 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   background: {
-    flex: 1,
     width: '100%',
+    height: '100%',
     alignSelf: 'center',
     backgroundColor: '#fff',
   },
@@ -25,10 +25,11 @@ export default StyleSheet.create({
     fontFamily: 'poppins-bold',
   },
   content: {
-    flex: 2,
     alignSelf: 'center',
     width: '90%',
+    height: '100%',
     paddingTop: 20,
+    paddingBottom: 90,
   },
   question: {
     marginTop: 10,

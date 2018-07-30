@@ -6,28 +6,30 @@ export default StyleSheet.create({
     width: '100%',
     alignSelf: 'center',
     backgroundColor: '#078BFB',
-    paddingTop: 20
+    paddingTop: 20,
   },
-  title: {
-    color: '#fff'
+  header: {
+    flex: 1,
+    width: '100%',
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  fontTitle: {
+    fontFamily: 'poppins-bold',
+    fontSize: 20,
+    color: '#fff',
   },
   form: {
-    flex: 1,
+    flex: 5,
     alignSelf: 'center',
     width: '90%',
-  },
-  btnSubmit: {
-    height: 68,
-    backgroundColor: '#fff',
-    borderColor: '#fff',
-    borderRadius: 50,
-    marginTop: 40,
   },
   input: {
     height: 58,
     marginTop: 30,
     padding: 14,
     borderRadius: 6,
-    backgroundColor: '#fff'
-  }
+    backgroundColor: '#fff',
+  },
 });

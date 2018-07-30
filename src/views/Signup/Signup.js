@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import { AppRegistry, Text, View, Image, TextInput } from 'react-native';
+import {
+  AppRegistry, Text, View, Image, TextInput,
+} from 'react-native';
 import {
   withRouter,
 } from 'react-router-native';
-import Button from 'apsl-react-native-button';
 import PhoneInput from 'react-native-phone-input';
 import Animation from 'lottie-react-native';
-
+import Button from '../../components/Button';
+import LottieAnimation from '../../components/LottieAnimation';
 import styles from './Signup.style';
 import animation from './check.animation.json';
-class Signup extends Component {
 
+class Signup extends Component {
   state = {
     page: 0,
   }
@@ -18,24 +20,23 @@ class Signup extends Component {
   handleSubmitPhoneNumber = () => {
     this.setState({
       page: 1,
-    })
+    });
   }
 
   handleBack = () => {
     this.setState({
       page: 0,
-    })
+    });
   }
 
   handleSubmitSecretCode = () => {
     this.setState({
       page: 2,
-    })
+    });
   }
 
   handleCompleteSignup = () => {
     const { history } = this.props;
-    console.log(this.props)
     history.push('/main');
   }
 
@@ -44,41 +45,34 @@ class Signup extends Component {
       <View style={styles.form}>
         <View>
           <PhoneInput
-            ref='phone'
+            ref="phone"
             style={styles.input}
           />
           <Button
-            title="Submit"
-            color="#fff"
-            style={styles.btnSubmit}
             onPress={this.handleSubmitPhoneNumber}
+            text="Submit"
           />
         </View>
       </View>
-    )
+    );
   }
 
   renderSuccess() {
+    this.animation;
     return (
       <View style={styles.form}>
         <View>
-          <Animation
-            style={{
-              width: 80,
-              height: 80
-            }}
-            loop={true}
+          <LottieAnimation
             source={animation}
+            style={{ width: 300, height: 300 }}
           />
           <Button
-            title="Submit"
-            color="#fff"
-            style={styles.btnSubmit}
             onPress={this.handleCompleteSignup}
+            text="Go to Top"
           />
         </View>
       </View>
-    )
+    );
   }
 
   renderSecretCodeForm() {
@@ -88,36 +82,36 @@ class Signup extends Component {
           <TextInput
             style={styles.input}
             placeholder="Password"
-            secureTextEntry={true}
+            secureTextEntry
           />
           <Button
-            title="Submit"
-            color="#fff"
-            style={styles.btnSubmit}
             onPress={this.handleSubmitSecretCode}
+            text="Submit"
           />
           <Button
-            title="Submit"
-            color="#fff"
-            style={styles.btnSubmit}
             onPress={this.handleBack}
+            text="Back"
           />
         </View>
       </View>
-    )
+    );
   }
 
   render() {
     return (
       <View style={styles.background}>
-        <Text style={styles.title}>Signup</Text>
+        <View style={styles.header}>
+          <Text style={styles.fontTitle}>
+Signup
+          </Text>
+        </View>
         <View style={styles.form}>
           {this.state.page === 0 && this.renderPhoneNumberForm()}
           {this.state.page === 1 && this.renderSecretCodeForm()}
           {this.state.page === 2 && this.renderSuccess()}
         </View>
       </View>
-    )
+    );
   }
 }
 
